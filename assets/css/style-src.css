@@ -1,0 +1,44 @@
+/* Standalone Tailwind entry — bypasses Hugo's css.TailwindCSS exec (AssetCache permission bug on this machine).
+   Rebuild with:  ./node_modules/.bin/tailwindcss -i assets/css/style-src.css -o assets/css/style-prebuilt.css --minify
+   (run from repo root) */
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin 'tailwind-bootstrap-grid';
+@source "../../hugo_stats.json";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import "../../themes/hugoplate/assets/css/generated-theme.css";
+@import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/safe.css";
+@import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/utilities.css";
+
+@layer base {
+  @import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/base.css";
+}
+
+@layer components {
+  @import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/components.css";
+  @import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/navigation.css";
+  @import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/buttons.css";
+}
+
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/search/assets/css/search.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/components/social-share/assets/css/social-share.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/gallery-slider/assets/css/gallery-slider.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/images/assets/css/images.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/table-of-contents/assets/css/toc.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/tab/assets/css/tab.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/accordion/assets/css/accordion.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/modal/assets/css/modal.css";
+@import "../../_vendor/github.com/gethugothemes/hugo-modules/shortcodes/notice/assets/css/notice.css";
+
+@import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/module-overrides.css";
+@import "./custom.css";
+
+/* ===== 正式字体（覆盖 generated-theme.css 的 --font-* 变量）=====
+   正文：系统黑体系（苹方/雅黑），标题：宋体系衬线，学术正式感。
+   若想标题也用黑体，把 --font-secondary 改成与 --font-primary 相同即可。 */
+:root {
+  --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+  --font-secondary: Georgia, "Times New Roman", "Songti SC", "STSong", "SimSun", "Source Han Serif SC", "Noto Serif CJK SC", serif;
+}

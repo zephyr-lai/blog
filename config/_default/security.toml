@@ -1,0 +1,11 @@
+# Hugo security policy — allow the external tools the theme needs.
+# `tailwindcss` is required by Hugo's css.TailwindCSS transform (Hugo >= 0.166 enforces this strictly).
+[exec]
+  allow = ['^(dart-)?sass(-embedded)?$', '^go$', '^golangci-lint$', '^asciidoctor$', '^pandoc$', '^npx$', '^node$', '^postcss$', '^tailwindcss$']
+
+[node]
+  [node.permissions]
+    allowAddons = ["tailwindcss"]
+    allowChildProcess = ["tailwindcss"]
+    allowRead = [".", "..", "/"]
+    allowWorker = ["tailwindcss"]
