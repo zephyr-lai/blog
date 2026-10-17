@@ -1,44 +1,19 @@
 {{ define "main" }}
   <section class="section">
-    <div class="container max-w-3xl">
-      {{ with .Params.featured }}
-        {{ if .enable }}
-          <a
-            href="{{ .link | relLangURL }}"
-            class="group border-border dark:border-darkmode-border bg-light dark:bg-darkmode-light hover:border-text-light dark:hover:border-darkmode-text-light mb-16 block rounded-xl border p-8 transition-colors">
-            <span
-              class="text-text-light dark:text-darkmode-text-light mb-3 block text-xs tracking-widest">
-              {{ .label }}
-            </span>
-            <h1 class="text-h3 mb-4">{{ .title }}</h1>
-            <p class="text-text-light dark:text-darkmode-text-light text-lg">
-              {{ .description }}
-            </p>
-            <span
-              class="text-text-dark dark:text-darkmode-text-dark mt-5 inline-flex items-center text-sm font-medium">
-              {{ .link_text }}
-              <svg
-                class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </span>
-          </a>
+    <div class="container max-w-3xl text-center">
+      <h1 class="text-h2 mb-4">{{ .Title }}</h1>
+      <p class="text-text-dark dark:text-darkmode-text-dark mb-2 text-lg">{{ .Params.role }}</p>
+      <p class="mb-12 text-text-light dark:text-darkmode-text-light">{{ .Params.bio }}</p>
+      <div class="flex flex-wrap justify-center gap-x-12 gap-y-6">
+        {{ range site.Menus.main }}
+          {{ if ne .Name "首页" }}
+            <a
+              class="text-text-dark hover:text-primary dark:text-darkmode-text-dark dark:hover:text-darkmode-primary text-lg"
+              href="{{ .URL | relLangURL }}">
+              {{ .Name }}
+            </a>
+          {{ end }}
         {{ end }}
-      {{ end }}
-
-      {{ $paginator := .Paginate (where site.RegularPages "Section" "blog") }}
-      {{ range $paginator.Pages }}
-        {{ partial "components/post-list-item" . }}
-      {{ end }}
-      <div class="mt-10">
-        {{ partial "components/pagination.html" . }}
       </div>
     </div>
   </section>
