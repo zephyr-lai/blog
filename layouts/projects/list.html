@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <section class="section">
+    <div class="container max-w-3xl">
+      <h1 class="text-h3 mb-10">{{ .Title }}</h1>
+      {{ if .RegularPages }}
+        <ul class="space-y-4">
+          {{ range .RegularPages }}
+            <li>
+              <a class="text-text-dark dark:text-darkmode-text-dark text-lg hover:underline" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      {{ else }}
+        <p class="text-text-light dark:text-darkmode-text-light">项目正在整理中，敬请期待。</p>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
