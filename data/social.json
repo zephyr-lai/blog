@@ -1,24 +1,28 @@
 {
   "main": [
     {
-      "name": "facebook",
-      "icon": "fab fa-facebook",
-      "link": "https://www.facebook.com/"
-    },
-    {
-      "name": "twitter",
-      "icon": "fab fa-twitter",
-      "link": "https://twitter.com/"
+      "name": "email",
+      "label": "邮箱",
+      "icon": "fa-solid fa-envelope",
+      "link": "mailto:lzping1996@gmail.com"
     },
     {
       "name": "github",
-      "icon": "fab fa-github",
-      "link": "https://www.github.com/"
+      "label": "GitHub",
+      "icon": "fa-brands fa-github",
+      "link": "https://github.com/zephyr-lai"
+    },
+    {
+      "name": "google scholar",
+      "label": "Google Scholar",
+      "icon": "fa-brands fa-google-scholar",
+      "link": "https://scholar.google.com/citations?user=oYRK793tsGYC&hl=zh-CN"
     },
     {
       "name": "linkedin",
-      "icon": "fab fa-linkedin",
-      "link": "https://www.linkedin.com/"
+      "label": "LinkedIn",
+      "icon": "fa-brands fa-linkedin",
+      "link": "https://www.linkedin.com/in/%E5%BF%97%E5%B9%B3-%E8%B5%96-45ab5134a/"
     }
   ]
 }

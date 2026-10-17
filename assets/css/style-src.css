@@ -35,10 +35,16 @@
 @import "../../_vendor/github.com/zeon-studio/hugoplate/assets/css/module-overrides.css";
 @import "./custom.css";
 
-/* ===== 正式字体（覆盖 generated-theme.css 的 --font-* 变量）=====
-   正文：系统黑体系（苹方/雅黑），标题：宋体系衬线，学术正式感。
-   若想标题也用黑体，把 --font-secondary 改成与 --font-primary 相同即可。 */
+/* ===== 字体：Inter var（本地可变字体，覆盖 generated-theme.css 的 --font-* 变量） ===== */
+@font-face {
+  font-family: "Inter var";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/Inter.var.woff2") format("woff2");
+}
+
 :root {
-  --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
-  --font-secondary: Georgia, "Times New Roman", "Songti SC", "STSong", "SimSun", "Source Han Serif SC", "Noto Serif CJK SC", serif;
+  --font-primary: "Inter var", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --font-secondary: "Inter var", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 }

@@ -1,0 +1,38 @@
+{{ define "main" }}
+  <section class="section pt-10">
+    <div class="container max-w-3xl">
+      <article>
+        <h1 class="text-h2 mb-3">{{ .Title }}</h1>
+        <div
+          class="text-text-light dark:text-darkmode-text-light mb-10 text-sm">
+          <time datetime="{{ .PublishDate.Format `2006-01-02` }}">
+            {{- time.Format ":date_long" .PublishDate -}}
+          </time>
+        </div>
+        <div class="content">
+          {{ .Content }}
+        </div>
+        {{ with .Params.tags }}
+          <div
+            class="border-border dark:border-darkmode-border mt-12 border-t pt-6 text-sm">
+            <span class="text-text-light dark:text-darkmode-text-light mr-2">
+              {{ T "tags" | default "Tags" }}：
+            </span>
+            {{ range $i, $tag := . }}
+              <a
+                class="hover:text-primary dark:hover:text-darkmode-primary mr-3"
+                href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}/">
+                {{ . }}{{ if ne $i (sub (len $.Params.tags) 1) }} ·{{ end }}
+              </a>
+            {{ end }}
+          </div>
+        {{ end }}
+        {{ if site.Params.open_remark.enable }}
+          <div class="mt-16">
+            {{ partial "open-remark.html" . }}
+          </div>
+        {{ end }}
+      </article>
+    </div>
+  </section>
+{{ end }}

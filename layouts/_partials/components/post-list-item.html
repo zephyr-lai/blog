@@ -1,0 +1,28 @@
+<article
+  data-post-item
+  data-tags="{{ delimit .Params.tags `|` }}"
+  class="border-border dark:border-darkmode-border border-b py-8 first:pt-0 last:border-b-0">
+  <h2 class="text-h4 mb-2">
+    <a
+      href="{{ .RelPermalink }}"
+      class="hover:text-primary dark:hover:text-darkmode-primary transition-colors">
+      {{ .Title }}
+    </a>
+  </h2>
+  <div
+    class="text-text-light dark:text-darkmode-text-light mb-3 text-sm">
+    <time datetime="{{ .PublishDate.Format `2006-01-02` }}">
+      {{- time.Format ":date_long" .PublishDate -}}
+    </time>
+    {{ with .Params.categories }}
+      <span class="mx-1">·</span>{{ delimit . " / " }}
+    {{ end }}
+  </div>
+  <p class="text-text-light dark:text-darkmode-text-light">
+    {{ with .Description }}
+      {{ . }}
+    {{ else }}
+      {{ .Summary | plainify | truncate 100 }}
+    {{ end }}
+  </p>
+</article>

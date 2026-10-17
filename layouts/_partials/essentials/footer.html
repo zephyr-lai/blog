@@ -1,0 +1,38 @@
+<footer
+  class="container mt-24 mb-4 text-center text-sm leading-6 text-text-light dark:text-darkmode-text-light">
+  <p>{{ site.Params.copyright | markdownify }}</p>
+  {{ with site.Menus.footer }}
+    <ul class="mt-2 flex items-center justify-center gap-6">
+      {{ range . }}
+        <li>
+          <a
+            class="hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+            {{ if findRE `^http` .URL }}
+              target="_blank" rel="noopener"
+            {{ end }}
+            href="{{ if findRE `^#` .URL }}
+              {{ if not $.IsHome }}{{ site.Home.RelPermalink }}{{ end }}{{ .URL }}
+            {{ else }}
+              {{ .URL | relLangURL }}
+            {{ end }}">
+            {{ .Name }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+  {{ with hugo.Data.social.main }}
+    <ul class="mt-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+      {{ range . }}
+        <li>
+          <a
+            class="hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+            href="{{ .link | safeURL }}"
+            {{ if hasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}>
+            {{ .label | default .name }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+</footer>
