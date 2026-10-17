@@ -5,7 +5,7 @@ description: "记录这个博客的搭建过程：从静态站点生成器选型
 date: 2026-10-16T09:30:00+08:00
 categories: ["技术"]
 tags: ["Hugo", "前端", "工具"]
-author: "zhiping"
+author: "zephyrus"
 draft: false
 ---
 

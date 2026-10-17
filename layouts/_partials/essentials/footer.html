@@ -21,18 +21,4 @@
       {{ end }}
     </ul>
   {{ end }}
-  {{ with hugo.Data.social.main }}
-    <ul class="mt-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-      {{ range . }}
-        <li>
-          <a
-            class="hover:text-primary dark:hover:text-darkmode-primary transition-colors"
-            href="{{ .link | safeURL }}"
-            {{ if hasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}>
-            {{ .label | default .name }}
-          </a>
-        </li>
-      {{ end }}
-    </ul>
-  {{ end }}
 </footer>

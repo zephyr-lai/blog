@@ -5,7 +5,7 @@ description: "分享我目前在用的终端工具组合：版本管理、编辑
 date: 2026-09-20T10:00:00+08:00
 categories: ["技术"]
 tags: ["工具", "效率", "Hugo"]
-author: "zhiping"
+author: "zephyrus"
 draft: false
 ---
 

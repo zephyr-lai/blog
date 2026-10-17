@@ -1,66 +1,10 @@
 {{ define "main" }}
   <section class="section-sm">
     <div class="container">
-      <div class="row justify-center">
-        <div class="md:col-10 lg:col-8">
-          <div class="mb-10 flex flex-col items-center gap-6 sm:flex-row">
-            {{ with .Params.image }}
-              {{ partial "image" (dict "Src" . "Alt" site.Title "Size" "112x112" "Class" "h-28 w-28 rounded-full object-cover") }}
-            {{ end }}
-            <div class="text-center sm:text-left">
-              <h1 class="h3 mb-2">{{ site.Title }}</h1>
-              <p class="text-text-light dark:text-darkmode-text-light">{{ site.Params.metadata.description }}</p>
-            </div>
-          </div>
-
-          <div class="content">{{ .Content }}</div>
-
-          <h2 class="h4 mt-14 mb-6">工作经历</h2>
-          {{ range site.Data.cv.work }}
-            <div class="work-item border-border dark:border-darkmode-border mb-6 border-b pb-6 last:border-0">
-              <div class="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 class="text-lg font-semibold">{{ .company }} · {{ .position }}</h3>
-                <span class="text-text-light dark:text-darkmode-text-light text-sm">{{ .start }} – {{ .end }}</span>
-              </div>
-              {{ with .summary }}<p class="text-text-light dark:text-darkmode-text-light mt-2">{{ . }}</p>{{ end }}
-            </div>
-          {{ end }}
-
-          <h2 class="h4 mt-14 mb-6">教育经历</h2>
-          {{ range site.Data.cv.education }}
-            <div class="education-item border-border dark:border-darkmode-border mb-6 border-b pb-6 last:border-0">
-              <div class="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 class="text-lg font-semibold">{{ .school }} · {{ .degree }}</h3>
-                <span class="text-text-light dark:text-darkmode-text-light text-sm">{{ .start }} – {{ .end }}</span>
-              </div>
-              {{ with .summary }}<p class="text-text-light dark:text-darkmode-text-light mt-2">{{ . }}</p>{{ end }}
-            </div>
-          {{ end }}
-
-          <h2 class="h4 mt-14 mb-6">论文</h2>
-          <ul class="space-y-5">
-            {{ range site.Data.publications }}
-              <li class="publication-item">
-                <a class="text-text-dark dark:text-darkmode-text-dark font-medium hover:underline" href="{{ .url }}" target="_blank" rel="noopener">
-                  {{ .title }}
-                </a>
-                <div class="text-text-light dark:text-darkmode-text-light mt-1 text-sm">
-                  {{ .venue }} · {{ .year }}{{ if .first_author }} · 第一作者{{ end }}
-                </div>
-              </li>
-            {{ end }}
-          </ul>
-
-          <h2 class="h4 mt-14 mb-6">联系方式</h2>
-          <ul class="flex flex-wrap gap-x-6 gap-y-3">
-            {{ range hugo.Data.social.main }}
-              <li>
-                <a class="hover:text-primary dark:hover:text-darkmode-primary" href="{{ .link | safeURL }}" {{ if hasPrefix .link "http" }}target="_blank" rel="noopener"{{ end }}>
-                  {{ .label | default .name }}
-                </a>
-              </li>
-            {{ end }}
-          </ul>
+      <div class="mx-auto max-w-3xl">
+        <h1 class="sr-only">{{ .Title }}</h1>
+        <div class="content">
+          {{ .Content }}
         </div>
       </div>
     </div>

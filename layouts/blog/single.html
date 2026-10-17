@@ -1,38 +1,97 @@
 {{ define "main" }}
   <section class="section pt-10">
-    <div class="container max-w-3xl">
-      <article>
-        <h1 class="text-h2 mb-3">{{ .Title }}</h1>
-        <div
-          class="text-text-light dark:text-darkmode-text-light mb-10 text-sm">
-          <time datetime="{{ .PublishDate.Format `2006-01-02` }}">
-            {{- time.Format ":date_long" .PublishDate -}}
-          </time>
-        </div>
-        <div class="content">
-          {{ .Content }}
-        </div>
-        {{ with .Params.tags }}
-          <div
-            class="border-border dark:border-darkmode-border mt-12 border-t pt-6 text-sm">
-            <span class="text-text-light dark:text-darkmode-text-light mr-2">
-              {{ T "tags" | default "Tags" }}：
-            </span>
-            {{ range $i, $tag := . }}
-              <a
-                class="hover:text-primary dark:hover:text-darkmode-primary mr-3"
-                href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}/">
-                {{ . }}{{ if ne $i (sub (len $.Params.tags) 1) }} ·{{ end }}
-              </a>
+    <div class="container">
+      <div class="lg:flex lg:gap-12">
+        {{ if .TableOfContents }}
+          <aside
+            class="hidden lg:sticky lg:top-24 lg:block lg:w-44 lg:shrink-0 lg:self-start">
+            <nav class="article-toc" aria-label="文章目录">
+              <p class="article-toc-title">文章目录</p>
+              {{ .TableOfContents }}
+            </nav>
+          </aside>
+        {{ end }}
+
+        <div class="min-w-0 flex-1">
+          <article class="max-w-3xl">
+            <a href="{{ `blog/` | relLangURL }}" class="back-link">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+              </svg>
+              返回文章列表
+            </a>
+            <h1 class="text-h2 mt-4 mb-3">{{ .Title }}</h1>
+            <div
+              class="text-text-light dark:text-darkmode-text-light mb-10 text-sm">
+              <time datetime="{{ .PublishDate.Format `2006-01-02` }}">
+                {{- time.Format ":date_long" .PublishDate -}}
+              </time>
+            </div>
+            <div class="content">
+              {{ .Content }}
+            </div>
+            {{ with .Params.tags }}
+              <div
+                class="border-border dark:border-darkmode-border mt-12 border-t pt-6 text-sm">
+                <span
+                  class="text-text-light dark:text-darkmode-text-light mr-2">
+                  {{ T "tags" | default "Tags" }}：
+                </span>
+                {{ range $i, $tag := . }}
+                  <a
+                    class="hover:text-primary dark:hover:text-darkmode-primary mr-3"
+                    href="{{ `tags/` | relLangURL }}{{ . | urlize | lower }}/">
+                    {{ . }}{{ if ne $i (sub (len $.Params.tags) 1) }} ·{{ end }}
+                  </a>
+                {{ end }}
+              </div>
             {{ end }}
-          </div>
-        {{ end }}
-        {{ if site.Params.open_remark.enable }}
-          <div class="mt-16">
-            {{ partial "open-remark.html" . }}
-          </div>
-        {{ end }}
-      </article>
+            {{ if site.Params.open_remark.enable }}
+              <div class="mt-16">
+                {{ partial "open-remark.html" . }}
+              </div>
+            {{ end }}
+          </article>
+        </div>
+      </div>
     </div>
   </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toc = document.querySelector(".article-toc");
+      if (!toc) return;
+
+      const entries = Array.from(toc.querySelectorAll('a[href^="#"]'))
+        .map((link) => {
+          const id = decodeURIComponent(link.getAttribute("href").slice(1));
+          return { link, target: document.getElementById(id) };
+        })
+        .filter((entry) => entry.target);
+
+      if (!entries.length) return;
+
+      function sync() {
+        let active = -1;
+        entries.forEach((entry, index) => {
+          if (entry.target.getBoundingClientRect().top <= 140) active = index;
+        });
+        entries.forEach((entry, index) =>
+          entry.link.classList.toggle("active", index === active)
+        );
+      }
+
+      document.addEventListener("scroll", sync, { passive: true });
+      window.addEventListener("resize", sync);
+      sync();
+    });
+  </script>
 {{ end }}

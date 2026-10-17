@@ -5,7 +5,7 @@ description: "梳理机器学习在电子设计自动化中的几个落点，以
 date: 2026-10-08T14:00:00+08:00
 categories: ["技术"]
 tags: ["AI", "EDA", "技术"]
-author: "zhiping"
+author: "zephyrus"
 draft: false
 ---
 

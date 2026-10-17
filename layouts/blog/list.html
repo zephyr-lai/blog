@@ -1,7 +1,7 @@
 {{ define "main" }}
   <section class="section">
     <div class="container max-w-5xl">
-      <h1 class="text-h3 mb-10">{{ .Title }}</h1>
+      <h1 class="sr-only">{{ .Title }}</h1>
 
       <div class="lg:flex lg:gap-12">
         <!-- tag sidebar -->
@@ -30,13 +30,83 @@
           </div>
         </aside>
 
-        <!-- posts, newest first -->
+        <!-- archive timeline, newest first -->
         <div class="min-w-0 flex-1">
           {{ $posts := .RegularPages.ByDate.Reverse }}
           {{ if $posts }}
-            <div id="post-list">
-              {{ range $posts }}
-                {{ partial "components/post-list-item" . }}
+            <div id="post-list" class="archive-list">
+              {{ range $posts.GroupByDate "2006" }}
+                <div class="archive-group" data-year-group>
+                  <div class="archive-row archive-year-row">
+                    <div class="archive-year">{{ .Key }}</div>
+                    <div class="archive-gutter">
+                      <button
+                        type="button"
+                        class="archive-year-node"
+                        data-year-toggle
+                        aria-expanded="true"
+                        aria-controls="year-{{ .Key }}"
+                        aria-label="折叠或展开 {{ .Key }} 年">
+                      </button>
+                    </div>
+                    <div class="archive-count">
+                      <span data-group-count>{{ len .Pages }}</span> 篇文章
+                    </div>
+                  </div>
+                  <div id="year-{{ .Key }}" data-year-entries>
+                    {{ range .Pages }}
+                      <article
+                        data-post-item
+                        data-tags="{{ delimit .Params.tags `|` }}"
+                        class="archive-row archive-item">
+                        <time
+                          class="archive-date"
+                          datetime="{{ .PublishDate.Format `2006-01-02` }}">
+                          {{- .PublishDate.Format "01-02" -}}
+                        </time>
+                        <div class="archive-gutter">
+                          <button
+                            type="button"
+                            class="archive-dot"
+                            data-select-article
+                            aria-label="选中文章：{{ .Title }}">
+                          </button>
+                        </div>
+                        <div class="archive-content">
+                          <div
+                            class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+                            <h2 class="archive-title min-w-0">
+                              <a
+                                href="{{ .RelPermalink }}"
+                                class="hover:text-primary dark:hover:text-darkmode-primary transition-colors">
+                                {{ .Title }}
+                              </a>
+                            </h2>
+                            <div
+                              class="archive-meta flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
+                              {{ with .Params.tags }}
+                                <div
+                                  class="archive-tags flex flex-wrap items-center justify-end gap-x-1.5 gap-y-1">
+                                  {{ range . }}
+                                    <button
+                                      type="button"
+                                      class="post-tag"
+                                      data-post-tag="{{ . }}">
+                                      {{ . }}
+                                    </button>
+                                  {{ end }}
+                                </div>
+                              {{ end }}
+                            </div>
+                          </div>
+                          <p class="archive-summary">
+                            {{ .Summary | plainify | truncate 80 }}
+                          </p>
+                        </div>
+                      </article>
+                    {{ end }}
+                  </div>
+                </div>
               {{ end }}
             </div>
             <p
@@ -47,7 +117,7 @@
           {{ else }}
             <p
               class="text-text-light dark:text-darkmode-text-light py-12 text-center">
-              还没有文章，敬请期待。
+              暂无文章
             </p>
           {{ end }}
         </div>
@@ -58,11 +128,15 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const buttons = document.querySelectorAll("[data-filter]");
+      const chips = document.querySelectorAll("[data-post-tag]");
       const posts = document.querySelectorAll("[data-post-item]");
+      const groups = document.querySelectorAll("[data-year-group]");
       const empty = document.getElementById("filter-empty");
       const key = (value) => value.trim().toLowerCase();
+      let currentFilter = "all";
 
       function apply(filter) {
+        currentFilter = filter;
         let visible = 0;
         posts.forEach((post) => {
           const tags = (post.dataset.tags || "")
@@ -73,22 +147,83 @@
           post.classList.toggle("hidden", !show);
           if (show) visible++;
         });
+        groups.forEach((group) => {
+          let count = 0;
+          group.querySelectorAll("[data-post-item]").forEach((post) => {
+            if (!post.classList.contains("hidden")) count++;
+          });
+          group.classList.toggle("hidden", count === 0);
+          const counter = group.querySelector("[data-group-count]");
+          if (counter) counter.textContent = count;
+          if (filter !== "all" && count > 0) {
+            group.classList.remove("collapsed");
+            const toggle = group.querySelector("[data-year-toggle]");
+            if (toggle) toggle.setAttribute("aria-expanded", "true");
+          }
+        });
         buttons.forEach((btn) =>
-          btn.classList.toggle("active", btn.dataset.filter === filter)
+          btn.classList.toggle(
+            "active",
+            key(btn.dataset.filter) === key(filter)
+          )
+        );
+        chips.forEach((chip) =>
+          chip.classList.toggle(
+            "active",
+            key(chip.dataset.postTag) === key(filter)
+          )
         );
         if (empty) empty.classList.toggle("hidden", visible > 0);
       }
 
+      function setFilter(filter) {
+        apply(filter);
+        if (filter === "all") {
+          history.replaceState(null, "", location.pathname);
+        } else {
+          history.replaceState(null, "", "#" + encodeURIComponent(filter));
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
       buttons.forEach((btn) => {
+        btn.addEventListener("click", () => setFilter(btn.dataset.filter));
+      });
+
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const tag = chip.dataset.postTag;
+          setFilter(key(tag) === key(currentFilter) ? "all" : tag);
+        });
+      });
+
+      // click the year node to collapse / expand that year
+      document.querySelectorAll("[data-year-toggle]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const filter = btn.dataset.filter;
-          apply(filter);
-          if (filter === "all") {
-            history.replaceState(null, "", location.pathname);
-          } else {
-            history.replaceState(null, "", "#" + encodeURIComponent(filter));
-          }
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          const group = btn.closest("[data-year-group]");
+          const collapsed = group.classList.toggle("collapsed");
+          btn.setAttribute("aria-expanded", String(!collapsed));
+        });
+      });
+
+      // article selection (only after an explicit click, no default selection)
+      function selectRow(row, scroll) {
+        posts.forEach((post) =>
+          post.classList.toggle("selected", post === row)
+        );
+        if (scroll) {
+          row.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+
+      posts.forEach((row) => {
+        const dot = row.querySelector("[data-select-article]");
+        if (dot) {
+          dot.addEventListener("click", () => selectRow(row, true));
+        }
+        row.addEventListener("click", (event) => {
+          if (event.target.closest("a, button")) return;
+          selectRow(row, false);
         });
       });
 

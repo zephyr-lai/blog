@@ -1,20 +1,30 @@
 {{ define "main" }}
   <section class="section">
-    <div class="container max-w-3xl text-center">
-      <h1 class="text-h2 mb-4">{{ .Title }}</h1>
-      <p class="text-text-dark dark:text-darkmode-text-dark mb-2 text-lg">{{ .Params.role }}</p>
-      <p class="mb-12 text-text-light dark:text-darkmode-text-light">{{ .Params.bio }}</p>
-      <div class="flex flex-wrap justify-center gap-x-12 gap-y-6">
-        {{ range site.Menus.main }}
-          {{ if ne .Name "首页" }}
-            <a
-              class="text-text-dark hover:text-primary dark:text-darkmode-text-dark dark:hover:text-darkmode-primary text-lg"
-              href="{{ .URL | relLangURL }}">
-              {{ .Name }}
-            </a>
-          {{ end }}
+    <div class="container max-w-3xl">
+      <h1 class="sr-only">{{ .Title }}</h1>
+      {{ with .Params.featured }}
+        {{ if .enable }}
+          <a
+            href="{{ .link | relLangURL }}"
+            class="group border-border dark:border-darkmode-border bg-light dark:bg-darkmode-light hover:border-text-light dark:hover:border-darkmode-text-light flex w-full items-center justify-between rounded-xl border px-6 py-4 transition-colors">
+            <span
+              class="text-text-dark dark:text-darkmode-text-dark text-sm font-medium">
+              {{ .link_text }}
+            </span>
+            <svg
+              class="h-4 w-4 transition-transform group-hover:translate-x-1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a>
         {{ end }}
-      </div>
+      {{ end }}
     </div>
   </section>
 {{ end }}

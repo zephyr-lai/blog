@@ -20,8 +20,9 @@
 }
 
 .tag-filter.active {
-  color: var(--color-primary);
+  color: var(--color-text-dark);
   background-color: var(--color-light);
+  box-shadow: inset 3px 0 0 var(--color-primary);
   font-weight: 600;
 }
 
@@ -44,6 +45,427 @@
 .dark .tag-filter.active {
   color: var(--color-darkmode-text-dark);
   background-color: var(--color-darkmode-light);
+  box-shadow: inset 3px 0 0 var(--color-darkmode-primary);
+}
+
+/* ===== Articles page: left-side archive timeline ===== */
+.archive-list {
+  --archive-date: 4.5rem;
+  --archive-gutter: 1.75rem;
+  --archive-content-pad: 0.75rem;
+  position: relative;
+}
+
+/* dotted trunk on the left */
+.archive-list::before {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.6rem;
+  left: calc(var(--archive-date) + var(--archive-gutter) / 2);
+  width: 1px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-border) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.archive-row {
+  display: grid;
+  grid-template-columns: var(--archive-date) var(--archive-gutter) minmax(0, 1fr);
+  align-items: center;
+}
+
+/* unlayered grid display would otherwise beat Tailwind's `.hidden` utility */
+.archive-row.hidden,
+.archive-group.hidden {
+  display: none;
+}
+
+.archive-year-row {
+  padding: 1.5rem 0 0.35rem;
+}
+
+.archive-group:first-child .archive-year-row {
+  padding-top: 0;
+}
+
+.archive-year {
+  color: var(--color-text-dark);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.archive-count {
+  padding-left: var(--archive-content-pad);
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+}
+
+.archive-gutter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.archive-year-node {
+  z-index: 1;
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 2px solid var(--color-primary);
+  border-radius: 9999px;
+  background-color: var(--color-body);
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    background-color 0.15s;
+}
+
+.archive-year-node:hover {
+  transform: scale(1.3);
+}
+
+.archive-year-node[aria-expanded="false"] {
+  background-color: var(--color-primary);
+}
+
+.archive-group.collapsed [data-year-entries] {
+  display: none;
+}
+
+.archive-item {
+  align-items: start;
+  padding: 0.45rem 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.archive-item:hover {
+  background-color: var(--color-light);
+}
+
+/* keep the date and dot level with the first line of the title */
+.archive-item .archive-gutter {
+  height: 1.6rem;
+}
+
+.archive-item.selected {
+  border-radius: 4px;
+  background-color: var(--color-light);
+  box-shadow: inset 2px 0 0 var(--color-primary);
+}
+
+.archive-date {
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.6rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.archive-dot {
+  position: relative;
+  z-index: 1;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.archive-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background-color: var(--color-text-light);
+  opacity: 0.4;
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.15s,
+    opacity 0.15s,
+    background-color 0.15s;
+}
+
+.archive-dot:hover::before {
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.archive-item.selected .archive-dot::before {
+  background-color: var(--color-primary);
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.archive-content {
+  padding-left: var(--archive-content-pad);
+}
+
+/* short dashed branch from the date dot to the title */
+.archive-item .archive-gutter::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--archive-gutter) / 2);
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-border) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.archive-title {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.archive-summary {
+  margin-top: 0.35rem;
+  overflow: hidden;
+  color: var(--color-text-light);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* per-article tags (rectangular badges, clickable filters) */
+.post-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.45rem;
+  border-radius: 3px;
+  background-color: var(--color-border);
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
+}
+
+.post-tag:hover {
+  color: var(--color-text-dark);
+}
+
+.post-tag.active {
+  background-color: var(--color-primary);
+  color: var(--color-body);
+}
+
+.dark .archive-list::before {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-darkmode-border) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.dark .archive-year {
+  color: var(--color-darkmode-text-dark);
+}
+
+.dark .archive-count,
+.dark .archive-date,
+.dark .archive-summary,
+.dark .post-tag {
+  color: var(--color-darkmode-text-light);
+}
+
+.dark .post-tag {
+  background-color: var(--color-darkmode-border);
+}
+
+.dark .post-tag:hover {
+  color: var(--color-darkmode-text-dark);
+}
+
+.dark .post-tag.active {
+  background-color: var(--color-darkmode-primary);
+  color: var(--color-darkmode-body);
+}
+
+.dark .archive-year-node {
+  border-color: var(--color-darkmode-primary);
+  background-color: var(--color-darkmode-body);
+}
+
+.dark .archive-year-node[aria-expanded="false"] {
+  background-color: var(--color-darkmode-primary);
+}
+
+.dark .archive-item:hover {
+  background-color: var(--color-darkmode-light);
+}
+
+.dark .archive-item.selected {
+  background-color: var(--color-darkmode-light);
+  box-shadow: inset 2px 0 0 var(--color-darkmode-primary);
+}
+
+.dark .archive-dot::before {
+  background-color: var(--color-darkmode-text-light);
+}
+
+.dark .archive-item .archive-gutter::after {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-darkmode-border) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+.dark .archive-item.selected .archive-dot::before {
+  background-color: var(--color-darkmode-primary);
+}
+
+@media (max-width: 639px) {
+  .archive-list {
+    --archive-date: 3.25rem;
+    --archive-gutter: 1.5rem;
+    --archive-content-pad: 0.5rem;
+  }
+}
+
+/* ===== Article page: back link + table of contents ===== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-light);
+  font-size: 0.875rem;
+  transition: color 0.15s;
+}
+
+.back-link:hover {
+  color: var(--color-primary);
+}
+
+.back-link svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.375rem;
+}
+
+.article-toc {
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.article-toc-title {
+  margin-bottom: 0.6rem;
+  color: var(--color-text-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* neutralise the bundled TOC module box so it blends into the sidebar */
+.article-toc #TableOfContents {
+  padding: 0;
+  background-color: transparent;
+}
+
+.article-toc #TableOfContents a {
+  color: var(--color-text-light) !important;
+}
+
+.article-toc #TableOfContents a:hover,
+.article-toc #TableOfContents a.active {
+  color: var(--color-text-dark) !important;
+  text-decoration: none;
+}
+
+.dark .article-toc #TableOfContents {
+  background-color: transparent;
+}
+
+.dark .article-toc #TableOfContents a {
+  color: var(--color-darkmode-text-light) !important;
+}
+
+.dark .article-toc #TableOfContents a:hover,
+.dark .article-toc #TableOfContents a.active {
+  color: var(--color-darkmode-text-dark) !important;
+}
+
+.article-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-toc ul ul {
+  margin-top: 0.15rem;
+  padding-left: 0.75rem;
+}
+
+.article-toc li {
+  margin: 0.1rem 0;
+}
+
+.article-toc a {
+  display: block;
+  padding: 0.2rem 0 0.2rem 0.6rem;
+  border-left: 1px solid transparent;
+  color: var(--color-text-light);
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.article-toc a:hover {
+  border-left-color: var(--color-border);
+  color: var(--color-text-dark);
+}
+
+.article-toc a.active {
+  border-left-color: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.content :is(h2, h3, h4) {
+  scroll-margin-top: 6rem;
+}
+
+.dark .back-link,
+.dark .article-toc a {
+  color: var(--color-darkmode-text-light);
+}
+
+.dark .back-link:hover,
+.dark .article-toc a:hover,
+.dark .article-toc a.active {
+  color: var(--color-darkmode-text-dark);
+}
+
+.dark .article-toc-title {
+  color: var(--color-darkmode-text-dark);
+}
+
+.dark .article-toc a:hover {
+  border-left-color: var(--color-darkmode-border);
+}
+
+.dark .article-toc a.active {
+  border-left-color: var(--color-darkmode-primary);
 }
 
 /* ===== Search: dropdown panel below the navbar (Hugo Blox style) ===== */

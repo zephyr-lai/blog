@@ -2,7 +2,7 @@
 # favicon module: https://github.com/gethugothemes/hugo-modules/tree/master/images#favicon-implementation
 favicon = "images/favicon.png"
 # logo module: https://github.com/gethugothemes/hugo-modules/tree/master/images#logo-implementation
-logo = ""
+logo = "images/logo.png"
 # use `px` or `x` with logo_width, example: "100px".
 # Note: logo_width is not work with .svg file
 logo_width = "40px"
@@ -10,7 +10,7 @@ logo_height = "40px"
 # if logo_webp set false, will not generate WEBP version of logo | default is true
 logo_webp = true
 # logo text will only show when logo is missing.
-logo_text = "赖志平"
+logo_text = "几何映射"
 # navbar fixed to top
 navbar_fixed = true
 # theme-mode
@@ -26,7 +26,7 @@ google_adsense = ""     # example: ca-pub-xxxxxxxxxxxxxxxx
 # custom script on header, example: custom_script= "<script>console.log(\"Hello World\")</script>"
 custom_script = ""
 # copyright
-copyright = "© 2026 赖志平"
+copyright = "© 2026 几何映射 · Powered by [Hugo](https://gohugo.io) & [Hugoplate](https://github.com/zeon-studio/hugoplate)"
 
 # Preloader
 # preloader module: https://github.com/gethugothemes/hugo-modules/tree/master/components/preloader
@@ -73,11 +73,11 @@ content = "<span class='text-center block'>♥️ Loving Hugoplate? <a class='un
 # seo meta data for OpenGraph / Twitter Card
 # seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
 [metadata]
-keywords = ["赖志平", "EDA", "电子设计自动化", "人工智能", "脑机接口", "个人网站"]
-description = "赖志平的个人网站：EDA 研发工程师，关注电子设计自动化、人工智能与脑机接口。"
-author = "赖志平"
+keywords = ["博客", "几何映射"]
+description = "寻找知识与技术背后的结构，建立认知与实践的映射。探索技术，实践方法，构建系统，沉淀能力。"
+author = "zephyrus"
 twitter = ""
-image = "images/avatar.jpg"
+image = "images/og-image.png"
 
 
 # site verifications
@@ -124,6 +124,6 @@ mailchimp_form_name = "b_463ee871f45d2d93748e77cad_a0a2c6d074"
 
 # OpenRemark Comments
 [open_remark]
-enable = false
+enable = true
 site_key = "cmq51sse6000504l2761vcywi"                 # your site key from the OpenRemark dashboard
 embed_url = "https://open-remark.zeon.studio/embed.js" # OpenRemark embed.js URL | Make sure it didn't change

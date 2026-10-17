@@ -5,7 +5,7 @@ description: "把陌生问题映射到熟悉结构上，是我最常用的思考
 date: 2026-10-12T20:00:00+08:00
 categories: ["思考"]
 tags: ["思考", "系统设计"]
-author: "zhiping"
+author: "zephyrus"
 draft: false
 ---
 

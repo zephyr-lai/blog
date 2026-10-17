@@ -5,7 +5,7 @@ description: "德内拉·梅多斯的系统思考入门，以及我对「杠杆�
 date: 2026-09-28T21:00:00+08:00
 categories: ["阅读"]
 tags: ["阅读", "系统设计", "思考"]
-author: "zhiping"
+author: "zephyrus"
 draft: false
 ---
 

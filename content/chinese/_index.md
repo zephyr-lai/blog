@@ -1,5 +1,10 @@
 ---
-title: "赖志平"
-role: "EDA 研发工程师 · 上海立芯软件科技有限公司"
-bio: "复旦大学计算机应用技术硕士。关注电子设计自动化、人工智能与脑机接口。"
+title: "几何映射"
+featured:
+  enable: true
+  label: "关于"
+  title: "寻找知识与技术背后的结构，建立认知与实践的映射。"
+  description: "探索技术，实践方法，构建系统，沉淀能力。"
+  link: "/about/"
+  link_text: "了解「几何映射」"
 ---
